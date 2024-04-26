@@ -2,11 +2,15 @@ type CalcError<T extends string> = {
   error: T;
 };
 
-export type OutOfRange = CalcError<'Out of range'>;
-export type DivisionByZeroError = CalcError<'Division by zero'>;
+type OutOfRange = CalcError<'Out of range'>;
+type DivisionByZeroError = CalcError<'Division by zero'>;
 
 // number represented as a tuple
 type Num = void[];
+
+// predefined numbers as tuples
+type ZeroNum = [];
+type OneNum = [void];
 
 // stores number represented as tuple and isNegative flag
 type SignedNum<
@@ -22,14 +26,10 @@ type SignedNum<
       isNegative: S;
     };
 
-// predefined numbers as tuples
-type ZeroNum = [];
-type OneNum = [void];
-
 // predefined numbers as SignedNum
 type ZeroSignedNum = SignedNum<ZeroNum>;
 
-// convert number to Num and SignedNum
+// convert number to Num
 type ToNum<
   T extends number,
   R extends Num = ZeroNum
@@ -41,6 +41,7 @@ type Abs<T extends number> = `${T}` extends `${infer Sign}${infer Value}`
     : `${T}`
   : `${T}`;
 
+// convert number to SignedNum
 type ToSignedNum<T extends number> = SignedNum<ToNum<T>, IsNegative<T>>;
 
 type IsNegative<T extends number> = `${T}` extends `-${string}` ? true : false;
@@ -153,28 +154,28 @@ type DivideSignedNum<A extends SignedNum, B extends SignedNum> = DivideNum<
   ? CalcError<U>
   : SignedNum<DivideNum<A['number'], B['number']>, MultiplySign<A, B>>;
 
-export type Add<A extends number, B extends number> = AddSignedNum<
+type Add<A extends number, B extends number> = AddSignedNum<
   // biggest number always goes as first argument, smallest as the second
   MaxAbsoluteNum<ToSignedNum<A>, ToSignedNum<B>>,
   MinAbsoluteNum<ToSignedNum<A>, ToSignedNum<B>>
 >;
 
-export type Sub<A extends number, B extends number> = SubSignedNum<
+type Sub<A extends number, B extends number> = SubSignedNum<
   ToSignedNum<A>,
   ToSignedNum<B>
 >;
 
-export type Multiply<A extends number, B extends number> = MultiplySignedNum<
+type Multiply<A extends number, B extends number> = MultiplySignedNum<
   ToSignedNum<A>,
   ToSignedNum<B>
 >;
 
-export type Divide<A extends number, B extends number> = DivideSignedNum<
+type Divide<A extends number, B extends number> = DivideSignedNum<
   ToSignedNum<A>,
   ToSignedNum<B>
 >;
 
-export type ToNumber<T> = T extends CalcError<string>
+type ToNumber<T> = T extends CalcError<string>
   ? CalcError<string>
   : T extends ZeroSignedNum
   ? '0'

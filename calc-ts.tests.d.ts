@@ -1,12 +1,3 @@
-import {
-  ToNumber,
-  Add,
-  Sub,
-  Divide,
-  Multiply,
-  DivisionByZeroError,
-} from './calc-ts';
-
 // tests
 type Assert<E, A extends E> = A extends E ? true : false;
 
