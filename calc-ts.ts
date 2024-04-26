@@ -8,7 +8,7 @@ export type DivisionByZeroError = CalcError<'Division by zero'>;
 // number represented as a tuple
 type Num = void[];
 
-// stores number and sign
+// stores number represented as tuple and isNegative flag
 type SignedNum<
   T extends Num | CalcError<E> = Num,
   S extends boolean | CalcError<E> = boolean,
