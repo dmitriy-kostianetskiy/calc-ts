@@ -1,1 +1,1 @@
-# Calculater built with TypeScript type system
+# Calculator built with TypeScript type system
