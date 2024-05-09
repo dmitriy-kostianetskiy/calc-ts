@@ -1,4 +1,3 @@
-// errors
 type CalcError<T extends string> = {
   error: T;
 };
