@@ -35,16 +35,10 @@ type ToString<T> = T extends SignedTuple
   : T;
 
 // multiply the signs
-type MultiplySign<
+type MultiplyIsNegative<
   A extends boolean,
   B extends boolean,
-> = A extends true
-  ? B extends true
-    ? false // (-) * (-) = (+)
-    : true // (-) * (+) = (-)
-  : B extends true
-  ? true // (+) * (-) = (-)
-  : false; // (+) * (+) = (+)
+> = A extends B ? false : true;
 
 // multiplication
 type MultiplySignedTuple<
@@ -52,7 +46,7 @@ type MultiplySignedTuple<
   B extends SignedTuple,
 > = SignedTuple<
   MultiplyTuple<A['number'], B['number']>,
-  MultiplySign<A['isNegative'], B['isNegative']>
+  MultiplyIsNegative<A['isNegative'], B['isNegative']>
 >;
 
 // division
@@ -63,7 +57,7 @@ type DivideSignedTuple<
   ? R extends Tuple // if R is a Tuple we construct SignedTuple
     ? SignedTuple<
         R,
-        MultiplySign<A['isNegative'], B['isNegative']>
+        MultiplyIsNegative<A['isNegative'], B['isNegative']>
       >
     : R // otherwise error occurred, so we propagate it
   : never;

@@ -51,10 +51,10 @@ type MultiplyTuple<
   B extends Tuple,
 > = B extends ZeroTuple // if B = 0, return 0
   ? ZeroTuple
-  : DecrementTuple<A> extends infer S // literally S = A - 1
+  : DecrementTuple<A> extends infer S // assign S to A - 1
   ? S extends Tuple
     ? AddTuple<MultiplyTuple<S, B>, B> // if S >= 0, return B + (A - 1) * B
-    : ZeroTuple // if S < 0, return 0
+    : ZeroTuple
   : ZeroTuple;
 
 // division
@@ -66,7 +66,7 @@ type DivideTuple<
   ? DivisionByZeroError //  if B = 0, return DivisionByZeroError
   : B extends OneTuple // if B = 1, return A
   ? A
-  : SubTuple<A, B> extends infer S // literally S = A - B
+  : SubTuple<A, B> extends infer S // assign S  to A - B
   ? S extends Tuple
     ? DivideTuple<S, B, IncrementTuple<R>> // if S >= 0, recursively divide S by B and increment R
     : R // if S < 0, return R
